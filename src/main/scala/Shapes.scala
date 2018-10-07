@@ -2,11 +2,12 @@ package shapes
 import vec.Vec
 import ray.Ray
 import hitable._
-class Sphere(val center:Vec,val radius:Float) extends Hitable{
+
+case class Sphere(val center:Vec,val radius:Float) extends Hitable{
   override def hit(r: Ray, tMin: Float, tMax: Float, rec: HitRecord): Boolean = {
     val oc = r.origin - center
-    val a:Float = r.diraction.dot(r.diraction)
-    val b:Float = oc.dot(r.diraction)
+    val a:Float = r.direction().dot(r.direction())
+    val b:Float = oc.dot(r.direction())
     val c:Float = oc.dot(oc) - radius*radius
     val d:Float = b*b - a*c
     if(d>0){
@@ -28,3 +29,4 @@ class Sphere(val center:Vec,val radius:Float) extends Hitable{
       return false
   }
 }
+//case class Cube()extends Hitable{}

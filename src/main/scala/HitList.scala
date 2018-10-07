@@ -3,7 +3,8 @@ import vec.Vec
 import ray.Ray
 import hitable._
 import shapes._
-class HitList(list:Array[Sphere])extends Hitable {
+//Any is a type of Shape
+class HitList[T<:Hitable](list:Array[T])extends Hitable {
   val list_size = list.length
   override def hit(r: Ray, tMin: Float, tMax: Float, rec: HitRecord): Boolean = {
     //initial stage

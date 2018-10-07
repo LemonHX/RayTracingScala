@@ -1,8 +1,13 @@
 package ray
 import vec.Vec
-class Ray(val A:Vec = Vec(0),val B:Vec = Vec(0)) {
-  val origin = A
-  val diraction = B
+//射线会被材质所改变,所以不能VAL
+class Ray(var A:Vec = Vec(0),var B:Vec = Vec(0)) {
+  def origin():Vec={
+    A
+  }
+  def direction():Vec={
+    B
+  }
   def pointAtScale(t:Float):Vec=  {
     return (A+(B*t))
   }

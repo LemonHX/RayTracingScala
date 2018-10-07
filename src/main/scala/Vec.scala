@@ -1,11 +1,11 @@
 package vec
 
-class Vec(val x:Float = 0,val y:Float = 0,val z:Float = 0){
-  val v:Array[Float] = Array(x,y,z);
+class Vec(var x:Float = 0,var y:Float = 0,var z:Float = 0){
+  def v():Array[Float] = return Array(x,y,z);
   //for color
-  val r = x;
-  val g = y;
-  val b = z;
+//  val r = x;
+//  val g = y;
+//  val b = z;
   //op overload
   def +(that:Vec):Vec = {
     return new Vec(

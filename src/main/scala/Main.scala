@@ -21,8 +21,8 @@ object Main extends App {
 
 //  def hit(center:Vec,radius:Float,r: Ray):Float = {
 //    val oc = r.origin - center
-//    val a:Float = r.diraction.dot(r.diraction)
-//    val b:Float = oc.dot(r.diraction)*2.0f
+//    val a:Float = r.direction().dot(r.direction())
+//    val b:Float = oc.dot(r.direction())*2.0f
 //    val c:Float = oc.dot(oc) - radius*radius
 //    val d:Float = b*b - 4*a*c
 //    if(d<0){
@@ -37,7 +37,7 @@ object Main extends App {
 //      val n:Vec = (r.pointAtScale(t)-Vec(0,0,-1f)).unitVec()
 //      return Vec(n.x+1f,n.y+1f,n.z+1f)*0.5f
 //    }else{
-//     val ud:Vec = r.diraction.unitVec()
+//     val ud:Vec = r.direction().unitVec()
 //      val t = (ud.y+1f) * 0.5f
 //      return Vec(1f)*(1f-t) + Vec(0.5f,0.7f,1.0f) * t.toFloat
 //    }
@@ -45,8 +45,8 @@ object Main extends App {
 
 //  def hit(center:Vec,radius:Float,r:Ray): Boolean ={
 //    val oc = r.origin - center
-//        val a:Float = r.diraction.dot(r.diraction)
-//        val b:Float = (oc.dot(r.diraction)*2.0).toFloat
+//        val a:Float = r.direction().dot(r.direction())
+//        val b:Float = (oc.dot(r.direction())*2.0).toFloat
 //        val c:Float = oc.dot(oc) - radius*radius
 //        val d:Float = b*b - 4*a*c
 //        return d>0
@@ -55,7 +55,7 @@ object Main extends App {
 //      if(hit(Vec(0,0,-1),0.5f,r)){
 //        return Vec(1,0,0)
 //      }
-//    val ud = r.diraction.unitVec()
+//    val ud = r.direction().unitVec()
 //    val t:Float = (ud.y+1)*0.5f
 //    return (Vec(1)*(1.0f-t) + Vec(0.5f,0.7f,1.0f)*t)
 //  }
@@ -64,12 +64,12 @@ object Main extends App {
 
 
 
-  def color(ray: Ray,world:HitList): Vec ={
+  def color(ray: Ray,world:HitList[Sphere]): Vec ={
     val rec = new HitRecord(0,new Vec(),new Vec())
     if(world.hit(ray,0,100000000,rec)){
       return Vec(rec.normal.x+1f,rec.normal.y+1f,rec.normal.z+1f)*0.5f
     }
-    val ud:Vec = ray.diraction.unitVec()
+    val ud:Vec = ray.direction().unitVec()
     val t = (ud.y+1f) * 0.5f
     return Vec(1f)*(1f-t) + Vec(0.5f,0.7f,1.0f) * t.toFloat
   }
@@ -86,7 +86,7 @@ object Main extends App {
 
     f.init(width = nx,height = ny)
     val as:Array[Sphere] = Array(new Sphere(Vec(0,0,-1),0.5f),new Sphere(Vec(0,-100.5f,-1),100))
-    val list = new HitList(as)
+    val list = new HitList[Sphere](as)
     for(j <- (ny-1) to 0 by -1;i <- 0 to (nx-1) by 1) {
         val random1:Float = Random.nextFloat()
         val random2:Float = Random.nextFloat()
