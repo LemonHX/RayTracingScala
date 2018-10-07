@@ -81,15 +81,15 @@ case class Dielectric(val ri:Float) extends Material{
       outwardNormal = (rec.normal)*(-1)
       niOverNt = ri
     }else{
-      outwardNormal = rec.normal
+      outwardNormal = (rec.normal)*(-1)
       niOverNt = 1/ri
     }
     if(Dielectric.isRefracted(rayin.direction(),outwardNormal,niOverNt,reflected)){
       refra = Dielectric.refract(rayin.direction(),outwardNormal,niOverNt,reflected)
-      return Tuple2(Ray(rec.p,reflected),Vec(1))
+      return Tuple2(Ray(rec.p,reflected*(-1)),Vec(1))
     }
     else{
-      return Tuple2(Ray(rec.p,reflected),Vec(1))
+      return Tuple2(Ray(rec.p,reflected*(-1)),Vec(1))
     }
 
   }
