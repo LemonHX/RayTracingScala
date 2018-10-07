@@ -14,12 +14,12 @@ object HitRecord{
 
 //Any is a kind of Material
 //Yes i trust U compuler
-class HitRecordWithMaterial(var rec:HitRecord, var mat:Any){}
-object HitRecordWithMaterial{
-  def apply():HitRecordWithMaterial = {
-    return new HitRecordWithMaterial(HitRecord(),new Lambertian(Vec()))
-  }
-}
+class HitRecordWithMaterial[T<:Material](var rec:HitRecord, var mat:T){}
+//object HitRecordWithMaterial{
+//  def apply[T<:Material]():HitRecordWithMaterial[T] = {
+//    return new HitRecordWithMaterial[T](HitRecord(),new T())
+//  }
+//}
 
 abstract class Hitable {
   def hit(r:Ray,tMin:Float,tMax:Float,rec:HitRecord):Boolean

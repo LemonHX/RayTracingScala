@@ -1,11 +1,14 @@
 import java.io.{File, PrintWriter}
 
+import camera.Camera
 import vec.Vec
 import ray.Ray
 import ppm.PPM
 import hitable._
 import shapes._
 import hitlist._
+import material.Lambertian
+import renderobject.RenderObject
 
 import scala.util.Random
 object Main extends App {
@@ -63,11 +66,13 @@ object Main extends App {
 
 
 
+def rius():Vec = Lambertian.randomInUnitSphere()
 
   def color(ray: Ray,world:HitList[Sphere]): Vec ={
-    val rec = new HitRecord(0,new Vec(),new Vec())
-    if(world.hit(ray,0,100000000,rec)){
-      return Vec(rec.normal.x+1f,rec.normal.y+1f,rec.normal.z+1f)*0.5f
+    val rec = HitRecord()
+    if(world.hit(ray,0.0f,100000000,rec)){
+      var tar = rec.p + rec.normal + rius()
+      return color(Ray(rec.p,tar-rec.p),world)*0.5f
     }
     val ud:Vec = ray.direction().unitVec()
     val t = (ud.y+1f) * 0.5f
@@ -79,10 +84,7 @@ object Main extends App {
     val ny = 1000
     val f = new PPM()
 
-    val llc = new Vec(-2,-1,-1)
-    val h = new Vec(4,0,0)
-    val v = new Vec(0,2,0)
-    val o = new Vec(0)
+    val cam = new Camera()
 
     f.init(width = nx,height = ny)
     val as:Array[Sphere] = Array(new Sphere(Vec(0,0,-1),0.5f),new Sphere(Vec(0,-100.5f,-1),100))
@@ -92,7 +94,7 @@ object Main extends App {
         val random2:Float = Random.nextFloat()
         val uf:Float = (i + random1) / nx.toFloat
         val vf:Float = (j + random2) / ny.toFloat
-        val r:Ray = new Ray(o, llc + (h * uf) + (v * vf))
+        val r:Ray = cam.getRay(uf,vf)
         val p = r.pointAtScale(2)
         val col:Vec = color(r,list)
         val ir = (255.99f * col.x).round
